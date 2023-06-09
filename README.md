@@ -39,16 +39,28 @@ The program provides the user with the following options.  </br >
 **POST /user** </br>
 Registr a new user in the system.
 
+Request Body
 ```
 {
   "username": "user",
   "password": "password"
+}
+```
+
+Response Body
+```
+{
+	"currency_type": "Hryvnia",
+	"id": 1,
+	"password": "$pbkdf2-sha256$29000$7F3LGWPsndP6H2MMwVjr/Q$TMlIk/Bxgv7AK5ez7P1UdSo65W2syA8WACwM71dKXQE",
+	"username": "user"
 }
 ```
 
 **POST /login** </br>
 Authorize a user and obtain an access token for authentication.
 
+Request Body
 ```
 {
   "username": "user",
@@ -56,20 +68,97 @@ Authorize a user and obtain an access token for authentication.
 }
 ```
 
+Response Body
+```
+{
+	"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NjMyMTM0OSwianRpIjoiMTQ3NzA0YjEtNTkyMC00ZWIwLTgwZTItNjdjMzhmYTM0NmM4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjg2MzIxMzQ5LCJleHAiOjE2ODYzMjIyNDl9.tVpIIcIvKnnU5sDowjVa76i9FW62MjoRc1xeCVJK3p0"
+}
+```
+
 **GET /user** </br>
 Get the list of all users.
+
+Response Body
+```
+[
+	{
+		"currency_type": "Hryvnia",
+		"id": 1,
+		"password": "$pbkdf2-sha256$29000$HWPsfe99710rRSglREipFQ$9nMZ2/.ILqisUzgCSyxlKQvepfG2Tm9mnMJAXnxoXyY",
+		"username": "user"
+	},
+	{
+		"currency_type": "Hryvnia",
+		"id": 2,
+		"password": "$pbkdf2-sha256$29000$fq.1VipljDEm5JwzJmTMeQ$Uuz3tF3lOiYylwc26hXXI2RZ6GVEockPthEp4o.cJGw",
+		"username": "user2"
+	},
+	{
+		"currency_type": "Hryvnia",
+		"id": 3,
+		"password": "$pbkdf2-sha256$29000$g1AK4XwPQQjh/N.bMyYkxA$FkwEZTv.5KjN.GQf.8f4wJfikO5GdJj9SE5HdAhPw6Q",
+		"username": "user3"
+	}
+]
+```
 
 **GET /user/{id}** </br>
 Get a user by ID.
 
+Response Body
+```
+{
+	"currency_type": "Hryvnia",
+	"id": 3,
+	"password": "$pbkdf2-sha256$29000$g1AK4XwPQQjh/N.bMyYkxA$FkwEZTv.5KjN.GQf.8f4wJfikO5GdJj9SE5HdAhPw6Q",
+	"username": "user3"
+}
+```
+
 **DELETE /user/{id}** </br>
 Delete a user.
+
+Response Body
+```
+{
+	"currency_type": "Hryvnia",
+	"id": 3,
+	"password": "$pbkdf2-sha256$29000$g1AK4XwPQQjh/N.bMyYkxA$FkwEZTv.5KjN.GQf.8f4wJfikO5GdJj9SE5HdAhPw6Q",
+	"username": "user3"
+}
+```
 
 **GET /category** </br>
 Get the list of categories.
 
+Response Body
+```
+[
+	{
+		"id": 1,
+		"name": "Education"
+	},
+	{
+		"id": 2,
+		"name": "Traveling"
+	},
+	{
+		"id": 3,
+		"name": "Medicine"
+	}
+]
+```
+
 **GET /category/{id}** </br>
 Get a category by ID.
+
+Response Body
+```
+{
+	"id": 1,
+	"name": "Education"
+}
+```
 
 **POST /category** </br>
 Create a category.
@@ -80,14 +169,66 @@ Create a category.
 }
 ```
 
+Response Body
+```
+{
+	"id": 3,
+	"name": "Medicine"
+}
+```
+
 **DELETE /category/{id}** </br>
 Delete a category by ID.
+
+Response Body
+```
+{
+	"id": 3,
+	"name": "Medicine"
+}
+```
 
 **GET /record/{id}** </br>
 Get a record by user ID.
 
-**GET /record/{user_id}/{category_id}** </br>
+Response Body
+```
+[
+	{
+		"amount": "15",
+		"category_id": 1,
+		"currency_type": "Dollar",
+		"date": "2023-06-09 14:40:59",
+		"id": 1,
+		"user_id": 1
+	},
+	{
+		"amount": "10",
+		"category_id": 2,
+		"currency_type": "Euro",
+		"date": "2023-06-09 14:41:45",
+		"id": 2,
+		"user_id": 1
+	}
+]
+```
+
+**GET /record/{userId}/{categoryId}** </br>
 Get a record by user in a category.
+
+Response Body
+```
+[
+	{
+		"amount": "15",
+		"category_id": 1,
+		"currency_type": "Dollar",
+		"date": "2023-06-09 14:40:59",
+		"id": 1,
+		"user_id": 1
+	}
+]
+```
 
 **POST /record** </br>
 Create a record. </br>
@@ -102,11 +243,53 @@ The default currency is Hryvnia.
 }
 ```
 
+Response Body
+```
+{
+	"amount": "15",
+	"category_id": 1,
+	"currency_type": "Dollar",
+	"date": "2023-06-09 14:40:59",
+	"id": 1,
+	"user_id": 1
+}
+```
+
 **DELETE /record/{id}** </br>
 Delete a record by ID.
 
+Response Body
+```
+{
+	"amount": "15",
+	"category_id": 1,
+	"currency_type": "Dollar",
+	"date": "2023-06-09 14:40:59",
+	"id": 1,
+	"user_id": 1
+}
+```
+
 **GET /currency** </br>
 Get the list of currencies.
+
+Response Body
+```
+[
+	{
+		"id": 1,
+		"name": "Hryvnia"
+	},
+	{
+		"id": 2,
+		"name": "Dollar"
+	},
+	{
+		"id": 3,
+		"name": "Euro"
+	}
+]
+```
 
 **POST /currency** </br>
 Create a currency. </br>
@@ -114,6 +297,14 @@ Create a currency. </br>
 ```
 {
     "name": "Pound"
+}
+```
+
+Response Body
+```
+{
+	"id": 4,
+	"name": "Pound"
 }
 ```
 
